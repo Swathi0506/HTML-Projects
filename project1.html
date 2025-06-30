@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Motivational Quote App</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #ccff90, #a5d6a7);
+      overflow-x: hidden;
+    }
+
+    nav {
+      background-color: #fff;
+      padding: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    nav a {
+      margin-right: 20px;
+      color: #00796b;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1em;
+      cursor: pointer;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .view {
+      padding: 30px;
+      text-align: center;
+      animation: fadeIn 1.2s ease;
+    }
+
+    .quote-box {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      display: inline-block;
+      max-width: 600px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      font-size: 1.3em;
+      color: #2e7d32;
+      margin-top: 20px;
+      animation: fadeIn 2s ease;
+    }
+
+    .emoji-grow {
+      font-size: 2.2em;
+      animation: growPlant 1.5s ease-in-out infinite alternate;
+      margin-top: 15px;
+    }
+
+    .greeting {
+      font-size: 1.8em;
+      font-weight: bold;
+      color: #4e342e;
+      margin-bottom: 10px;
+    }
+
+    @keyframes growPlant {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.3); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .typewriter {
+      display: inline-block;
+      overflow: hidden;
+      border-right: .15em solid green;
+      white-space: nowrap;
+      animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: green }
+    }
+
+    .floating-plant {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      font-size: 2em;
+      animation: floatUpDown 3s ease-in-out infinite;
+      z-index: 1000;
+    }
+
+    @keyframes floatUpDown {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    .music-toggle {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #1b5e20;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .leaves {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .leaf {
+      position: absolute;
+      color: #8bc34a;
+      font-size: 1.5em;
+      animation: fall 10s linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-100px) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <a onclick="loadPage('home')">Home</a>
+    <a onclick="loadPage('quote')">Quote of the Day</a>
+    <a onclick="loadPage('about')">About</a>
+  </nav>
+
+  <!-- Content -->
+  <div class="view" id="viewContainer"></div>
+
+  <!-- Floating plant -->
+  <div class="floating-plant">🌿</div>
+
+  <!-- Falling leaves -->
+  <div class="leaves" id="leavesContainer"></div>
+
+  <!-- Music -->
+  <audio id="bgMusic" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const quotes = [
+      "Believe you can and you're halfway there.",
+      "The only limit to our realization of tomorrow is our doubts of today.",
+      "Act as if what you do makes a difference. It does.",
+      "Start where you are. Use what you have. Do what you can."
+    ];
+
+    const today = new Date().getDate();
+    const selectedQuote = quotes[today % quotes.length];
+    let musicPlaying = false;
+
+    const audio = document.getElementById("bgMusic");
+
+    function getGreeting() {
+      const hour = new Date().getHours();
+      if (hour < 12) return "🌞 Good Morning!";
+      else if (hour < 18) return "☀️ Good Afternoon!";
+      else return "🌙 Good Evening!";
+    }
+
+    function toggleMusic(btn) {
+      if (musicPlaying) {
+        audio.pause();
+        btn.textContent = "🔊 Play Music";
+      } else {
+        audio.play();
+        btn.textContent = "🔇 Stop Music";
+      }
+      musicPlaying = !musicPlaying;
+    }
+
+    function loadPage(page) {
+      const container = document.getElementById("viewContainer");
+      if (page === "home") {
+        container.innerHTML = `
+          <div class="greeting">${getGreeting()}</div>
+          <h2>🌟 Welcome to Your Daily Motivation 🌟</h2>
+          <p>Start your day with inspiration and positivity.</p>
+          <button class="music-toggle" onclick="toggleMusic(this)">🔊 Play Music</button>
+          <div class="emoji-grow">🌱</div>
+        `;
+      } else if (page === "quote") {
+        container.innerHTML = `
+          <div class="quote-box">
+            <div class="typewriter">${selectedQuote}</div>
+          </div>
+          <div class="emoji-grow">🌿</div>
+        `;
+      } else if (page === "about") {
+        container.innerHTML = `
+          <h3>About</h3>
+          <p>This simple app shares motivational quotes to lift your spirit every day! 🌈</p>
+          <div class="emoji-grow">🌻</div>
+        `;
+      }
+    }
+
+    // Load home by default
+    loadPage("home");
+
+    // Generate falling leaves
+    const leavesContainer = document.getElementById("leavesContainer");
+    for (let i = 0; i < 10; i++) {
+      const leaf = document.createElement("div");
+      leaf.classList.add("leaf");
+      leaf.innerHTML = "🍃";
+      leaf.style.left = Math.random() * 100 + "%";
+      leaf.style.animationDelay = `${i}s`;
+      leavesContainer.appendChild(leaf);
+    }
+  </script>
+
+</body>
+</html>

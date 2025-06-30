@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DJ Night Event Registration</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-image: url('https://images.pexels.com/photos/1047442/pexels-photo-1047442.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      color: white;
+    }
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      border-radius: 10px;
+    }
+    .train {
+      display: flex;
+      gap: 20px;
+      white-space: nowrap;
+      animation: moveTrain 10s linear infinite;
+    }
+    @keyframes moveTrain {
+      from {
+        transform: translateX(100%);
+      }
+      to {
+        transform: translateX(-100%);
+      }
+    }
+  </style>
+</head>
+<body class="d-flex align-items-center justify-content-center">
+
+  <div class="container overlay">
+    <div class="row g-4">
+      
+      <!-- Left: Registration Form -->
+      <div class="col-md-6">
+        <div class="bg-dark p-4 rounded">
+          <h2 class="text-warning mb-4">Register for DJ Night</h2>
+          <form>
+            <div class="mb-3">
+              <label class="form-label text-white">Full Name</label>
+              <input type="text" class="form-control" placeholder="Enter your name">
+            </div>
+            <div class="mb-3">
+              <label class="form-label text-white">Email</label>
+              <input type="email" class="form-control" placeholder="Enter your email">
+            </div>
+            <div class="mb-3">
+              <label class="form-label text-white">Select Pass</label>
+              <select class="form-select">
+                <option>VIP Pass - ₹5000</option>
+                <option>General Pass - ₹2500</option>
+                <option>After Party Access - ₹1500</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-warning w-100 fw-bold">Register Now</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Right: Animated Options -->
+      <div class="col-md-6 text-center">
+        <h1 class="text-info mb-3">Welcome to the Ultimate DJ Night! 🎧</h1>
+        <p class="text-light mb-4">Get ready for an electrifying night of music, lights, and dance! 🔥</p>
+
+        <div class="overflow-hidden w-100 mb-4">
+          <div class="train">
+            <div class="bg-primary text-white p-3 rounded min-w-100">
+              <h5>General Entry</h5>
+              <button onclick="showAmount('General Entry', 2500)" class="btn btn-light mt-2 fw-bold">Reserve</button>
+            </div>
+            <div class="bg-purple text-white p-3 rounded min-w-100">
+              <h5>VIP Access</h5>
+              <button onclick="showAmount('VIP Access', 5000)" class="btn btn-light mt-2 fw-bold">Book Now</button>
+            </div>
+            <div class="bg-danger text-white p-3 rounded min-w-100">
+              <h5>After Party</h5>
+              <button onclick="showAmount('After Party', 1500)" class="btn btn-light mt-2 fw-bold">Join</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selected Amount Display -->
+        <div id="amountDisplay" class="bg-secondary p-3 rounded d-none">
+          <h5 id="amountTitle" class="text-warning"></h5>
+          <p id="amountValue" class="text-white"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showAmount(service, amount) {
+      document.getElementById('amountTitle').innerText = `Selected: ${service}`;
+      document.getElementById('amountValue').innerText = `Amount: ₹${amount}`;
+      document.getElementById('amountDisplay').classList.remove('d-none');
+    }
+  </script>
+
+</body>
+</html>
